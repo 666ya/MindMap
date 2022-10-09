@@ -1,0 +1,48 @@
+computedRefImpl => constructor   =>   this.effect =>  监听函数 getter
+ 					      			  => scheduler => this._drity = false; triggerRefValu(this) 
+					      => this.effect.computed = this
+
+computedRefImpl => get value => this.effect.run() => getter()
+
+
+
+effect(fn) => reactiveEffect
+// 执行监听函数fn   activeEffect为 => fn
+//  fn有computed
+// 执行 get value
+// trackRefValue(self)
+// computedRefImpl.dep.add(activeEffect);  activeEffect.deps.push(dep)
+if computedRefImpl._dirty === true
+// computedRefImpl._dirt = false
+//computedRefImpl.effect.run()
+// activeEffect更改为 => getter
+// 执行监听函数getter
+//  getter函数中有代理
+// trackEffect => isShow关联 this.effect
+// 返回 值
+
+
+
+// isShow 改变
+// triggerEffect 
+// 触发 this.effect.scheduler
+// this._drity = true; 
+// triggerRefValu(this) 
+// 触发 activeEffect=> fn
+
+
+// 执行监听函数fn   activeEffect为 => fn
+//  fn有computed
+// 执行 get value
+// trackRefValue(self)
+// computedRefImpl.dep.add(activeEffect);  activeEffect.deps.push(dep)
+if computedRefImpl._dirty === true
+// computedRefImpl._dirt = false
+//computedRefImpl.effect.run()
+// activeEffect更改为 => getter
+// 执行监听函数getter
+//  getter函数中有代理
+// trackEffect => isShow关联 this.effect
+// 返回 值
+
+
