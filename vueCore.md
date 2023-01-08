@@ -87,6 +87,30 @@ set length  => trigger => triggerEffect
 
 ### Setter
 *** 
+
+
+
+# Render(渲染)
+## 组件
+
+### 无状态组件（Functional Com）
+```
+function MyComponent(props,context) {
+    return h('div',{
+        title: props.title
+    })
+}
+MyComponent.props = ['title'] // props
+MyComponent.emits = ['click'] // emits
+MyComponent.inheritAttribute = false // inheritAttribute
+```
+- **props**
+  1、不会合并全局minxis、extends的props
+  2、如果没有直接声明，props=attrs;如果如上图直接声明props,props = props
+### 有状态组件（StateFull Com）
+- **props**
+  1、
+    
       
 
 	
