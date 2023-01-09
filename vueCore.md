@@ -107,9 +107,49 @@ MyComponent.inheritAttribute = false // inheritAttribute
 - **props**
   1、不会合并全局minxis、extends的props
   2、如果没有直接声明，props=attrs;如果如上图直接声明props,props = props
+
 ### 有状态组件（StateFull Com）
-- **props**
-  1、
+#### props ####
+ - **createComponentInstance时normalizeProsOptions**
+    **1、合并mixis/extends**
+    **2、格式化propsOptions,需要显示转换的key保存到needCastKeys**
+    ```
+    // 核心代码
+    enum BooleanFlags = {
+        shouldCast, // 0
+        shouldCastTrue // 1
+    }
+    if(isArray) {
+        // 类似 props: ['title']
+        nromalize[key] = {}
+    } else {
+        const prop = (nromalize[key] = isArray(opt) || isFunciton(opt) ? { type: opt } : opt);
+        const booleanType = type是数组 ? findIndex : type存在Array类型 ? 0 : -1
+        const stringType =  type是数组 ? findIndex : type存在String类型 ? 0 : -1
+        props[BooleanFlags.shouldCast] = booleanType > -1
+        props[BooleanFlags.shouldCastTrue] = stringType < 0 ||booleanType < stringType
+        if(props[BooleanFlags.shouldCast] || hasDefault ){
+            needCastKeys.push(key)
+        }
+    }
+   
+    return [nromalize, needCastKeys]
+    ```
+- **setupComponent时initProps**  
+    **1、setFullProps根据rawProps和propsOptions判断**
+        ***对rawProps存在进行处理***
+        rawProps有，propsOptions也有key => props[key] = value
+        rawProps有，propsOptions没有key => attrs[key] = value
+        ***对needCastedKeys存在的key进行处理***
+        有默认值且value === undefined => props[key] = default
+        如果type类型有Boolen，rawProps不存在key且没有默认值， props[key] = false
+        如果type类型有Boolen/String,value === ''或者value === key; props[key] = true
+        其他情况 props[key] = value
+     **2、propsOptions有key，props没有key => props[key] = undefined 默认赋值**  
+     **3、校验**
+     **4、instance.props = shallowReactive(props);instace.attrs = attrs**    
+
+   
     
       
 
