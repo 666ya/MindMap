@@ -93,6 +93,37 @@ set length  => trigger => triggerEffect
 # Render(渲染)
 ## 组件
 
+- **emits** 
+- **createComponentInstance时normalizeEmitsOptions**
+    **1、合并mixis/extends**
+    **2、格式化emitsOptions**
+    ```
+    const normalized = {}
+    // 核心代码
+    if(isArray) {
+        // 类似 emits: ['emitEvent']
+        nromalize[event] = null
+    } else {
+        // 类似 emits: { click: null }
+        Object.assign(normalize, raw)
+    }
+   
+    return normalized
+    ```
+- **createComponentInstance里emit**
+  ```
+   instance.emit = emit.bind(null,instance)
+  ```
+  ```
+    // this.$emit/ctx.emit核心代码
+    funciton emit(instance,event, args){
+        if(isntance.isUmounted) return 
+        const props = instance.vnode.props
+        let handlerName;
+        let handler = props[(handlerName = toHandlerKey(event))] || 
+                      props[(handlerName = toHandlerKey(camelize(event)))]  
+    }
+  ```     
 ### 无状态组件（Functional Com）
 ```
 function MyComponent(props,context) {
