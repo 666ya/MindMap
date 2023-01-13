@@ -92,8 +92,7 @@ set length  => trigger => triggerEffect
 
 # Render(渲染)
 ## 组件
-
-- **emits** 
+#### emits ####
 - **createComponentInstance时normalizeEmitsOptions**
     **1、合并mixis/extends**
     **2、格式化emitsOptions**
@@ -122,6 +121,20 @@ set length  => trigger => triggerEffect
         let handlerName;
         let handler = props[(handlerName = toHandlerKey(event))] || 
                       props[(handlerName = toHandlerKey(camelize(event)))]  
+        if(handler) {
+            handler()
+        }
+        // once修饰符 
+        const onceHandler = props[handlerName+ 'once']
+        if(onceHandler) {
+            if(!instance.emitted) {
+                instance.emitter = {}
+            } else if(instance.emitted[handlerName]){
+                return
+            }
+             instance.emitter[handlerName] = true
+            onceHandler()
+        }             
     }
   ```     
 ### 无状态组件（Functional Com）
